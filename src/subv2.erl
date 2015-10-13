@@ -5,7 +5,6 @@
 start() ->
 	ensure_started(subv2).
 
-
 ensure_started(App) ->
     case application:start(App) of
         ok ->
