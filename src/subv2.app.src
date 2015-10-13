@@ -1,0 +1,13 @@
+{application, subv2,
+ [
+  {description, "subv2"},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  cowboy
+                 ]},
+  {mod, { subv2_app, []}},
+  {env, []}
+ ]}.
