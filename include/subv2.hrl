@@ -4,7 +4,7 @@
 
 -define(MAP_PIX, 1000).
 -define(EDGE, 4).
--define(BLOCK_MAP_PIX, ?MAP_PIX / ?EDGE).
+-define(BM_PIX, ?MAP_PIX div ?EDGE).
 
 
 -endif.

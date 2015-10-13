@@ -9,23 +9,17 @@ start_link() ->
     supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 init([]) ->
-    {ok, { {one_for_one, 5, 10}, 
-    	[
-    		?CHILD(subv2_map_handler, worker, 'subv2$0250$0250'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$0250$0500'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$0250$0750'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$0250$1000'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$0500$0250'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$0500$0500'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$0500$0750'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$0500$1000'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$0750$0250'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$0750$0500'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$0750$0750'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$0750$1000'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$1000$0250'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$1000$0500'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$1000$0750'),
-    		?CHILD(subv2_map_handler, worker, 'subv2$1000$1000')
-    	]
-    } }.
+    List = generate([], 0),
+    {ok, 
+        { 
+            {one_for_one, 5, 10}, 
+            [?CHILD(subv2_map_handler, worker, list_to_atom("subv2$" ++ integer_to_list(A) ++ "$" ++ integer_to_list(B))) || B <- List, A <- List] 
+        } 
+    }.
+
+generate(List, X) -> 
+    io:format("~p~n", [List]),
+    case X > ?MAP_PIX of
+        true -> List;
+        false -> generate([X | List], X + ?BM_PIX)
+     end.
